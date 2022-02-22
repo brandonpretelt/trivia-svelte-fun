@@ -1,4 +1,4 @@
 /node_modules/
 /public/build/
-
+*.bak
 .DS_Store
