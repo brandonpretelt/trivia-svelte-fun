@@ -13,10 +13,10 @@
     let answers = [];
     let correct = [];
     let quiz = [];
-    let test = [];
-    let testAns = [];
-    let new_triviaQuestion;
-    let new_triviaAnswer;
+
+    export const checkAnswer = (answerValue) => {
+        console.log(answerValue);
+    };
 
     // Borrowed from stack overflow
     // NOTE TO SELF: read about what it does to solidify understanding
@@ -27,7 +27,6 @@
     const getTrivia = async (url) => {
         let response = await fetch(url);
         trivia = await response.json();
-        // console.log(handleTrivia(trivia));
         handleTrivia(trivia);
     };
 
@@ -46,23 +45,20 @@
             });
         });
 
-        console.log(quizQuestions, ' test');
-
         answers = data.results.map((result) => {
             return [result.correct_answer, ...result.incorrect_answers];
         });
-        // answers = answers.sort(mixUpAnswers);
         correct = correct.flat();
-
-        //         console.log(quizQuestions[currentQuestion].triviaQuestion);
-        console.log(quizQuestions[0]);
+        console.log(correct[currentQuestion], ' bleh');
     };
 
+    //const checkAnswer = () => {
+    //		if (quizQuestions[currentQuestion])
+    //}
     getTrivia(triviaURL);
 
     // $: [currentQuestion] = quizQuestions;
-
-    // 	console.log(quizQuestions[currentQuestion], 'test')
+    $: score = '';
 </script>
 
 <main>
@@ -71,7 +67,12 @@
 
         <Question question={quizQuestions[currentQuestion].triviaQuestion} />
     {/if}
-
+    <p>
+        {correct[currentQuestion]}
+        {#if checkAnswer(answers) === correct[currentQuestion]}
+            {score++}
+        {/if}
+    </p>
     <!--	{#if currentQuestion}
 		<p>
 			{currentQuestion.triviaQuestion}
@@ -85,9 +86,12 @@
     >
     <div class="answers">
         {#if quizQuestions[currentQuestion]}
-            <Answer quizAnswer={quizQuestions[currentQuestion].triviaAnswers} />
+            <Answer
+                quizAnswer={quizQuestions[currentQuestion].triviaAnswers}
+                checkedAnswer
+            />
 
-            {quizQuestions[currentQuestion].triviaAnswers};
+            <!-- 			{quizQuestions[currentQuestion].triviaAnswers}; -->
         {/if}
         <!--    					{#if quizQuestions[currentQuestion]}
 						{#each quizQuestions as answer}
@@ -95,7 +99,5 @@
              <Answer quizAnswer={answer.triviaAnswers}/> 
 						{/each}
 						{/if} -->
-
-        la la la
     </div>
 </main>

@@ -1,11 +1,27 @@
 <script>
     export let quizAnswer = [];
+    export let answers = '';
+    export let checkedAnswer = '';
+    $: answerValue = '';
+    $: checkedAnswer = answerValue;
+    $: console.log(answerValue);
 </script>
 
 <div>
     {#each quizAnswer as answer}
-        <input type="radio" name="answers" value={answer} />{answer}<br />
+        <input
+            type="radio"
+            bind:group={answers}
+            name="answers"
+            value={answer}
+            on:change={() => {
+                answerValue = answer;
+            }}
+        />{answer}<br />
     {/each}
+
+    {answers}
+
     <!--     <input type="radio" name="answers" bind:group={quizAnswer} value={quizAnswer}>{quizAnswer} -->
 </div>
 
